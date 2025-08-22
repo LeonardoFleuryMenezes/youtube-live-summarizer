@@ -87,3 +87,4 @@ Write-Host "   - Scraping da página (fallback)" -ForegroundColor White
 Write-Host ""
 Write-Host "✅ Arquivo .env criado e configurado!" -ForegroundColor Green
 
+

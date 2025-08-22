@@ -24,3 +24,4 @@ echo 🚀 Após configurar, o sistema tentará transcrição via áudio!
 echo.
 pause
 
+

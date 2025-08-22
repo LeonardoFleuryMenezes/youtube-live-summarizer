@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste Simples</title>
+    <style>
+        body {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            background: rgba(0,0,0,0.3);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 FUNCIONOU!</h1>
+        <p>✅ O Electron está carregando conteúdo corretamente!</p>
+        <p>🚀 YouTube Live Summarizer - Desktop</p>
+        <p id="status">⏰ Carregado em: <span id="time"></span></p>
+    </div>
+    
+    <script>
+        // Mostrar hora atual
+        document.getElementById('time').textContent = new Date().toLocaleTimeString();
+        
+        // Logs para debug
+        console.log('🎯 JavaScript executando no Electron!');
+        
+        // Prevenir que a página feche
+        window.addEventListener('beforeunload', function(e) {
+            console.log('🚫 Tentativa de beforeunload bloqueada');
+            e.preventDefault();
+            e.returnValue = '';
+            return '';
+        });
+        
+        // Logs de eventos
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ DOM carregado completamente');
+        });
+        
+        window.addEventListener('load', function() {
+            console.log('✅ Página carregada completamente');
+        });
+        
+        // Função para manter a página ativa
+        setInterval(() => {
+            console.log('💓 Página ainda ativa:', new Date().toLocaleTimeString());
+        }, 5000);
+    </script>
+</body>
+</html>

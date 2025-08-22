@@ -26,6 +26,9 @@ export interface AdvancedSettings {
   temperature: number
   creativity: 'low' | 'medium' | 'high'
   focusAreas: string[]
+  
+  // Metadados
+  lastUpdated?: Date
 }
 
 export default function AdvancedSettings({ onSettingsChange, currentSettings }: AdvancedSettingsProps) {

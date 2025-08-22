@@ -32,3 +32,4 @@ Write-Host "2. Substitua 'sk-example123456789' pela sua OpenAI API Key real" -Fo
 Write-Host "3. Obtenha sua chave em: https://platform.openai.com/api-keys" -ForegroundColor White
 Write-Host "4. Reinicie o servidor: npm run dev" -ForegroundColor White
 
+

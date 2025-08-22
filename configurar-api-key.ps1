@@ -35,3 +35,4 @@ Write-Host "3. O sistema tentará transcrição via áudio!" -ForegroundColor Wh
 Write-Host ""
 Write-Host "🎉 Configuração completa!" -ForegroundColor Green
 
+

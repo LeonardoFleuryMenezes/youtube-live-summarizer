@@ -29,3 +29,4 @@ echo    - Scraping da página (fallback)
 echo.
 pause
 
+

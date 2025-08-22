@@ -122,26 +122,73 @@ export default function Home() {
         progress: 50
       })
 
-      const response = await fetch('/api/summarize', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(request),
-      })
+      // Detectar se estamos no Electron (modo offline)
+      const isOffline = window.location.protocol === 'file:' || !navigator.onLine;
+      
+      let data;
+      
+      if (isOffline) {
+        console.log('🔌 Modo offline detectado - usando simulação local');
+        
+        setStatus({
+          status: 'processing',
+          message: 'Modo offline - gerando resumo simulado...',
+          progress: 75
+        });
+        
+        // Simular delay para parecer real
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Gerar resumo simulado
+        data = {
+          id: 'offline-' + Date.now(),
+          summary: `Este é um resumo simulado do tipo "${summaryType}" para a URL: ${videoUrl}\n\nEm modo offline, o aplicativo gera resumos simulados para demonstração. Para funcionalidade completa com IA real, conecte-se à internet.`,
+          summaryType,
+          language,
+          sentiment: 'neutral',
+          keyPoints: [
+            'Resumo gerado em modo offline',
+            'Funcionalidade simulada para demonstração',
+            'Conecte-se à internet para IA real',
+            'URL processada: ' + videoUrl,
+            'Tipo de resumo: ' + summaryType
+          ],
+          topics: ['offline', 'demo', 'simulation', 'youtube'],
+          duration: 0,
+          createdAt: new Date().toISOString(),
+          videoId: 'offline-demo',
+          videoInfo: {
+            title: 'Vídeo Demo (Modo Offline)',
+            channelTitle: 'YouTube Live Summarizer',
+            thumbnail: '',
+            duration: '0:00',
+            viewCount: '0',
+            publishedAt: new Date().toISOString()
+          }
+        };
+      } else {
+        // Modo online - usar API real
+        const response = await fetch('/api/summarize', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(request),
+        });
 
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.message || 'Erro ao processar resumo')
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || 'Erro ao processar resumo');
+        }
+
+        setStatus({
+          status: 'processing',
+          message: 'Gerando resumo com IA...',
+          progress: 75
+        });
+
+        data = await response.json();
       }
-
-      setStatus({
-        status: 'processing',
-        message: 'Gerando resumo com IA...',
-        progress: 75
-      })
-
-      const data = await response.json()
       
       setStatus({
         status: 'completed',
@@ -261,7 +308,10 @@ export default function Home() {
       setLanguage(newSettings.language)
       
       // Salva no banco
-      await db.saveSettings(newSettings)
+      await db.saveSettings({
+        ...newSettings,
+        lastUpdated: new Date()
+      })
     } catch (error) {
       console.error('❌ Erro ao salvar configurações:', error)
       addNotification('error', '❌ Erro ao Salvar', 'Falha ao salvar configurações')
@@ -275,11 +325,13 @@ export default function Home() {
   }
 
   const handleNotificationRead = (id: string) => {
-    setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n))
+    // Notificações são gerenciadas pelo NotificationSystem
+    console.log('Notificação lida:', id)
   }
 
   const handleNotificationDismiss = (id: string) => {
-    setNotifications(prev => prev.filter(n => n.id !== id))
+    // Notificações são gerenciadas pelo NotificationSystem
+    console.log('Notificação descartada:', id)
   }
 
   const clearAllNotifications = () => {
