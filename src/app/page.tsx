@@ -1,5 +1,17 @@
 'use client'
 
+/**
+ * 🚨 ALERTA DE SEGURANÇA - ATENÇÃO! 🚨
+ * 
+ * SUAS CHAVES DE API FORAM EXPOSTAS NO GITHUB!
+ * ANTES DE USAR ESTE PROJETO, VOCÊ DEVE:
+ * 1. Revogar as chaves comprometidas (YouTube, OpenAI, Gemini)
+ * 2. Criar 3 novas chaves seguras
+ * 3. Configurar o arquivo .env com as novas chaves
+ * 
+ * Veja o arquivo 🚨 ALERTA-SEGURANCA.md para instruções completas!
+ */
+
 import React, { useState, useEffect } from 'react'
 import { Youtube, Play, FileText, Brain, Clock, TrendingUp, Users, Calendar, Download, Upload, Database, Trash2 } from 'lucide-react'
 import { SummaryRequest, SummaryResponse, ProcessingStatus } from '../types'
@@ -9,6 +21,7 @@ import AnalyticsDashboard from '../components/AnalyticsDashboard'
 import NotificationSystem, { Notification } from '../components/NotificationSystem'
 import AuthorArchive from '../components/AuthorArchive'
 import { db, initializeDatabase } from '../lib/database'
+import { displaySecurityAlert } from '../lib/securityCheck'
 
 export default function Home() {
   const [videoUrl, setVideoUrl] = useState('')
@@ -81,6 +94,9 @@ export default function Home() {
         }
         
         console.log('🚀 Aplicação inicializada com sucesso!')
+        
+        // Verificar segurança das chaves de API
+        displaySecurityAlert()
       } catch (error) {
         console.error('❌ Erro ao inicializar aplicação:', error)
         addNotification('error', '❌ Erro de Inicialização', 'Falha ao carregar dados salvos')

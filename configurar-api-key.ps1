@@ -36,3 +36,4 @@ Write-Host ""
 Write-Host "🎉 Configuração completa!" -ForegroundColor Green
 
 
+

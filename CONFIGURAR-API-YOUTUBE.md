@@ -40,7 +40,7 @@ O sistema agora usa múltiplas estratégias em ordem de prioridade:
 
 ### 3. Configurar Credentials
 - Vá para **"APIs & Services"** > **"Credentials"**
-- Encontre sua chave: `AIzaSyA4H8O0g64f3fQF7w8h3zyGzT7iAGDfIz4`
+- Encontre sua chave: `SUA_CHAVE_YOUTUBE_AQUI`
 - Clique no **ícone de edição (lápis)**
 
 ### 4. Configurar Application Restrictions

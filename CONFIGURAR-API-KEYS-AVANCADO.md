@@ -33,7 +33,7 @@
 
 ### **🤖 Google Gemini API (OBRIGATÓRIO - JÁ CONFIGURADO)**
 ```javascript
-GEMINI_API_KEY: 'AIzaSyCLXEUN-AM1j4SmR3hXfOoZp43oY00L9hU'
+GEMINI_API_KEY: 'SUA_CHAVE_GEMINI_AQUI'
 ```
 - ✅ **Status:** Configurado e funcionando
 - 🎯 **Uso:** Geração de resumos com IA
@@ -64,7 +64,7 @@ YOUTUBE_API_KEY: 'sua-chave-youtube-aqui'
 ### **1️⃣ Editar arquivo `electron/main.js`:**
 ```javascript
 const API_CONFIG = {
-  GEMINI_API_KEY: 'AIzaSyCLXEUN-AM1j4SmR3hXfOoZp43oY00L9hU', // ✅ Já configurado
+  GEMINI_API_KEY: 'SUA_CHAVE_GEMINI_AQUI', // 🔧 Configure sua chave Gemini aqui
   OPENAI_API_KEY: 'sk-...', // 🔧 Sua chave OpenAI aqui
   YOUTUBE_API_KEY: 'AIza...', // 🔧 Sua chave YouTube aqui
   WHISPER_API_KEY: 'sk-...' // 🔧 Mesma chave OpenAI

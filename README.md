@@ -2,6 +2,19 @@
 
 Aplicativo inteligente para fazer resumo automático de lives e vídeos do YouTube usando inteligência artificial.
 
+## 🚨 **ALERTA DE SEGURANÇA - ATENÇÃO!**
+
+**⚠️ SUAS CHAVES DE API FORAM EXPOSTAS NO GITHUB! ⚠️**
+
+**ANTES DE USAR ESTE PROJETO, VOCÊ DEVE:**
+1. **Revogar as chaves comprometidas** (YouTube, OpenAI, Gemini)
+2. **Criar 3 novas chaves seguras**
+3. **Configurar o arquivo `.env` com as novas chaves**
+
+**📋 Veja o arquivo `🚨 ALERTA-SEGURANCA.md` para instruções completas!**
+
+---
+
 ## ✨ Funcionalidades
 
 - **🎯 Extração de Transcrições**: Obtém automaticamente transcrições de vídeos do YouTube

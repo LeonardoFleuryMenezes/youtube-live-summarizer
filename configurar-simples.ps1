@@ -33,3 +33,4 @@ Write-Host "3. Obtenha sua chave em: https://platform.openai.com/api-keys" -Fore
 Write-Host "4. Reinicie o servidor: npm run dev" -ForegroundColor White
 
 
+

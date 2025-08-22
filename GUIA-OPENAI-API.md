@@ -78,3 +78,4 @@ O sistema tentará automaticamente:
 **🚀 Após configurar, teste com qualquer vídeo do YouTube!**
 
 
+
