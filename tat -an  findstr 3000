@@ -1,0 +1,3 @@
+[33mc857bcf7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m  SEGURANÇA: Implementar proteções contra chaves de API expostas
+[33m46c2bdaa[m feat: Implementar transcrição real de áudio via Gemini + Whisper fallback
+[33md9182606[m  Initial commit: YouTube Live Summarizer with Gemini AI, Electron desktop app, and advanced features

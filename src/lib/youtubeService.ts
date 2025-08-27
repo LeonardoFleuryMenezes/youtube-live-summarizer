@@ -16,11 +16,12 @@ export interface VideoInfo {
   viewCount: string;
   uploadDate: string;
   channelTitle: string;
+  thumbnail?: string;
 }
 
 export class YouTubeService {
-  private static readonly YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY || process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
-  private static readonly OPENAI_API_KEY = process.env.OPENAI_API_KEY || process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+  private static readonly YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY || process.env.NEXT_PUBLIC_YOUTUBE_API_KEY || '';
+  private static readonly OPENAI_API_KEY = process.env.OPENAI_API_KEY || process.env.NEXT_PUBLIC_OPENAI_API_KEY || '';
 
   /**
    * Extrai o ID do vídeo de uma URL do YouTube
@@ -410,17 +411,75 @@ export class YouTubeService {
    */
   static async getVideoInfo(videoId: string): Promise<VideoInfo | null> {
     try {
-      const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
-      const info = await ytdl.getInfo(videoUrl);
+      console.log(`🔑 Tentando obter informações via API oficial do YouTube...`);
       
-             return {
-         title: info.videoDetails.title || 'Título não disponível',
-         description: info.videoDetails.description || 'Descrição não disponível',
-         duration: info.videoDetails.lengthSeconds || '0',
-         viewCount: info.videoDetails.viewCount || '0',
-         uploadDate: info.videoDetails.uploadDate || new Date().toISOString(),
-         channelTitle: info.videoDetails.author?.name || 'Canal não disponível'
-       };
+      // Primeiro tentar API oficial
+      try {
+        const apiInfo = await YouTubeApiService.getVideoInfo(videoId);
+        if (apiInfo && apiInfo.items && apiInfo.items.length > 0) {
+          const item = apiInfo.items[0];
+          const snippet = item.snippet;
+          const statistics = item.statistics;
+          const contentDetails = item.contentDetails;
+          
+          console.log(`✅ Informações obtidas via API oficial: ${snippet.title}`);
+          
+          return {
+            title: snippet.title || 'Título não disponível',
+            description: snippet.description || 'Descrição não disponível',
+            duration: contentDetails?.duration || '0',
+            viewCount: statistics?.viewCount || '0',
+            uploadDate: snippet.publishedAt || new Date().toISOString(),
+            channelTitle: snippet.channelTitle || 'Canal não disponível',
+            thumbnail: snippet.thumbnails?.high?.url || snippet.thumbnails?.medium?.url || snippet.thumbnails?.default?.url || ''
+          };
+        }
+      } catch (apiError) {
+        console.log(`⚠️ API oficial falhou, tentando oEmbed:`, apiError);
+      }
+      
+      // Fallback: tentar oEmbed
+      try {
+        const oembedInfo = await YouTubeApiService.getVideoInfoOEmbed(videoId);
+        if (oembedInfo) {
+          console.log(`✅ Informações obtidas via oEmbed: ${oembedInfo.title}`);
+          
+          return {
+            title: oembedInfo.title || 'Título não disponível',
+            description: oembedInfo.description || 'Descrição não disponível',
+            duration: '0', // oEmbed não fornece duração
+            viewCount: '0', // oEmbed não fornece visualizações
+            uploadDate: new Date().toISOString(),
+            channelTitle: oembedInfo.author_name || 'Canal não disponível',
+            thumbnail: oembedInfo.thumbnail_url || ''
+          };
+        }
+      } catch (oembedError) {
+        console.log(`⚠️ oEmbed falhou:`, oembedError);
+      }
+      
+      // Último recurso: tentar ytdl-core
+      try {
+        const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+        const info = await ytdl.getInfo(videoUrl);
+        
+        console.log(`✅ Informações obtidas via ytdl-core: ${info.videoDetails.title}`);
+        
+        return {
+          title: info.videoDetails.title || 'Título não disponível',
+          description: info.videoDetails.description || 'Descrição não disponível',
+          duration: info.videoDetails.lengthSeconds || '0',
+          viewCount: info.videoDetails.viewCount || '0',
+          uploadDate: info.videoDetails.uploadDate || new Date().toISOString(),
+          channelTitle: info.videoDetails.author?.name || 'Canal não disponível',
+          thumbnail: info.videoDetails.thumbnails?.[0]?.url || ''
+        };
+      } catch (ytdlError) {
+        console.log(`⚠️ ytdl-core falhou:`, ytdlError);
+      }
+      
+      console.error(`❌ Todas as estratégias falharam para obter informações do vídeo`);
+      return null;
     } catch (error) {
       console.error(`❌ Erro ao obter informações do vídeo:`, error);
       return null;

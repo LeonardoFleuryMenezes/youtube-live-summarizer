@@ -17,7 +17,7 @@ export interface TranscriptSegment {
 }
 
 export class OpenAIWhisperService {
-  private static readonly OPENAI_API_KEY = process.env.OPENAI_API_KEY || process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+  private static readonly OPENAI_API_KEY = process.env.OPENAI_API_KEY || process.env.NEXT_PUBLIC_OPENAI_API_KEY || '';
   private static readonly WHISPER_API_URL = 'https://api.openai.com/v1/audio/transcriptions';
 
   /**

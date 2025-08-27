@@ -5,6 +5,8 @@ const nextConfig = {
   trailingSlash: true,
   distDir: 'out',
   
+
+  
   // Configurações de assets para funcionar offline
   assetPrefix: '',
   basePath: '',

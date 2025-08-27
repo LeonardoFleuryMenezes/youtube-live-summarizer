@@ -1,15 +1,7 @@
 'use client'
 
 /**
- * 🚨 ALERTA DE SEGURANÇA - ATENÇÃO! 🚨
- * 
- * SUAS CHAVES DE API FORAM EXPOSTAS NO GITHUB!
- * ANTES DE USAR ESTE PROJETO, VOCÊ DEVE:
- * 1. Revogar as chaves comprometidas (YouTube, OpenAI, Gemini)
- * 2. Criar 3 novas chaves seguras
- * 3. Configurar o arquivo .env com as novas chaves
- * 
- * Veja o arquivo 🚨 ALERTA-SEGURANCA.md para instruções completas!
+ * YouTube Live Summarizer - Aplicativo para resumos de lives do YouTube usando IA
  */
 
 import React, { useState, useEffect } from 'react'
@@ -21,13 +13,13 @@ import AnalyticsDashboard from '../components/AnalyticsDashboard'
 import NotificationSystem, { Notification } from '../components/NotificationSystem'
 import AuthorArchive from '../components/AuthorArchive'
 import { db, initializeDatabase } from '../lib/database'
-import { displaySecurityAlert } from '../lib/securityCheck'
+
 
 export default function Home() {
   const [videoUrl, setVideoUrl] = useState('')
-  const [summaryType, setSummaryType] = useState<'brief' | 'detailed' | 'super-detailed' | 'key-points'>('detailed')
+  const [summaryType, setSummaryType] = useState<'brief' | 'detailed' | 'super-detailed' | 'key-points'>('super-detailed')
   const [language, setLanguage] = useState('pt-BR')
-  const [maxLength, setMaxLength] = useState(1000)
+  const [maxLength, setMaxLength] = useState(5000)
   const [status, setStatus] = useState<ProcessingStatus>({
     status: 'idle',
     message: 'Digite a URL de uma live do YouTube para começar',
@@ -95,8 +87,7 @@ export default function Home() {
         
         console.log('🚀 Aplicação inicializada com sucesso!')
         
-        // Verificar segurança das chaves de API
-        displaySecurityAlert()
+
       } catch (error) {
         console.error('❌ Erro ao inicializar aplicação:', error)
         addNotification('error', '❌ Erro de Inicialização', 'Falha ao carregar dados salvos')
@@ -553,17 +544,22 @@ export default function Home() {
 
               <div>
                 <label htmlFor="maxLength" className="block text-sm font-medium text-gray-700 mb-2">
-                  Tamanho Máximo
+                  Tamanho Máximo: {maxLength.toLocaleString()} caracteres
                 </label>
                 <input
-                  type="number"
+                  type="range"
                   id="maxLength"
                   value={maxLength}
                   onChange={(e) => setMaxLength(Number(e.target.value))}
-                  min="100"
-                  max="5000"
-                  className="input-field"
+                  min="1000"
+                  max="10000"
+                  step="100"
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                 />
+                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                  <span>1.000</span>
+                  <span>10.000</span>
+                </div>
               </div>
             </div>
 

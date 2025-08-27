@@ -37,9 +37,9 @@ export async function POST(request: NextRequest) {
     }
     
     // Valores padrão
-    const summaryType = body.summaryType || 'detailed'
+    const summaryType = body.summaryType || 'super-detailed'
     const language = body.language || 'pt-BR'
-    const maxLength = body.maxLength || 1000
+    const maxLength = body.maxLength || 5000
     
     console.log(`⚙️ [${requestId}] Configurações:`, { summaryType, language, maxLength })
     

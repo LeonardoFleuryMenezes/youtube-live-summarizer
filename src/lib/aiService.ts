@@ -53,10 +53,7 @@ export class AIService {
     fullText: string, 
     request: SummaryRequest
   ): Promise<SummaryResponse> {
-    const apiKey = process.env.GEMINI_API_KEY
-    if (!apiKey) {
-      throw new Error('GEMINI_API_KEY não configurada')
-    }
+    const apiKey = process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || ''
 
     console.log(`🤖 Inicializando Gemini...`)
     const genAI = new GoogleGenerativeAI(apiKey)
@@ -86,10 +83,7 @@ export class AIService {
     fullText: string, 
     request: SummaryRequest
   ): Promise<SummaryResponse> {
-    const apiKey = process.env.OPENAI_API_KEY
-    if (!apiKey) {
-      throw new Error('OPENAI_API_KEY não configurada')
-    }
+    const apiKey = process.env.OPENAI_API_KEY || process.env.NEXT_PUBLIC_OPENAI_API_KEY || ''
 
     console.log(`🤖 Inicializando OpenAI...`)
     const { OpenAI } = await import('openai')

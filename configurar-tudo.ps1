@@ -89,3 +89,8 @@ Write-Host "✅ Arquivo .env criado e configurado!" -ForegroundColor Green
 
 
 
+
+
+
+
+
